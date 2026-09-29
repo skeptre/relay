@@ -1,0 +1,81 @@
+# ============================================================
+# Relay — root .gitignore
+# Rule of thumb: ignore what is generated, machine-specific,
+# or secret. Commit what someone needs to rebuild the project
+# identically on another machine.
+# ============================================================
+
+# ---------- Secrets and local config (never commit) ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+appsettings.*.local.json
+
+# ---------- Claude Code personal overrides ----------
+# Shared rules live in .claude/settings.json (committed).
+.claude/settings.local.json
+CLAUDE.local.md
+
+# ---------- .NET (services/api) ----------
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+.vs/
+*.trx
+coverage*.xml
+coverage*.json
+
+# ---------- Node / TypeScript (apps/, packages/) ----------
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Python (python/) ----------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+python/loadtests/results/
+
+# ---------- Infrastructure ----------
+# Local database/volume data if you use bind mounts
+infra/data/
+# Terraform state can contain secrets
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# ---------- Logs ----------
+*.log
+logs/
+
+# ---------- Editors ----------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# ---------- Operating systems ----------
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+desktop.ini
