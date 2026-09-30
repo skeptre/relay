@@ -1,0 +1,26 @@
+# Line ending rules for different machine types
+# Git reads from top to bottom, the last matching rule wins
+
+# Default for every file, git detects text vs binary.
+# Text is stored as LF in the repo and written as LF on every OS
+* text=auto eol=lf
+
+# Windows batch files: cmd.exe requires CRLF so we override default for these
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary files below never convert, do not diff as text
+# Listing files explicitly so git doesn't have to guess
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.pfx binary
+*.p12 binary
+*.zip binary
+*.gz binary
