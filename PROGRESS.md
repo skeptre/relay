@@ -6,21 +6,21 @@
 
 - **Phase:** 0 — Foundations
 - **Step:** 0.1 — Repo structure and tooling files
-- **Branch:** —
-- **Status:** Not started
+- **Branch:** chore/0.1-repo-tooling (pushed)
+- **Status:** In progress — `master` renamed to `main`; `.gitattributes` and `.editorconfig` done
 - **Blocked on:** nothing
-- **Next action:** start session, confirm environment on both machines
+- **Next action:** Mac environment check, then pin tool versions (Node LTS, choose Python version)
 
 ## Environment
 
 | | macOS | Windows |
 |---|---|---|
-| Git | | |
-| .NET SDK (pinned in `global.json`) | | |
-| Node (pinned in `.nvmrc`) | | |
-| Python (pinned in `.python-version`) | | |
-| Docker Desktop | | (WSL2 backend) |
-| VS Code + Claude Code extension | | |
+| Git | | 2.56.0 (`core.autocrlf=true`) |
+| .NET SDK (pinned in `global.json`) | | 10.0.202 |
+| Node (pinned in `.nvmrc`) | | 25.9.0 — not LTS, must change |
+| Python (pinned in `.python-version`) | | `python` 3.12.7, `py` 3.14, uv 3.13 — must decide |
+| Docker Desktop | | 29.8.1 (WSL2 backend) |
+| VS Code + Claude Code extension | | ✓ (EditorConfig extension installed) |
 | Repo cloned and running | ☐ | ☐ |
 
 ## Roadmap checklist
@@ -189,10 +189,10 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 
 ## Parked / later
 
-- 
+- Add a `-text` rule to `.gitattributes` for raw HTTP test fixtures once the fixtures folder exists (Phase 3/8)
 
 ## Session log
 
 | Date | Machine | Done | Next |
 |---|---|---|---|
-| | | | |
+| 2026-09-30 | Windows | Renamed master → main; `.gitattributes` (fixed `eol=LF` case bug) and `.editorconfig` committed; branch pushed | Mac env check; pin tool versions |
