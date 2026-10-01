@@ -7,20 +7,20 @@
 - **Phase:** 0 — Foundations
 - **Step:** 0.1 — Repo structure and tooling files
 - **Branch:** chore/0.1-repo-tooling (pushed)
-- **Status:** In progress — `master` renamed to `main`; `.gitattributes` and `.editorconfig` done
+- **Status:** In progress — done: `master`→`main`, repo renamed to `relay`, `.gitattributes`, `.editorconfig`, `global.json` (10.0.401, latestPatch), `.nvmrc` (24), `LEARNINGS.md`. Left: `.python-version`, README stub, ADR template, folder layout, PR
 - **Blocked on:** nothing
-- **Next action:** Mac environment check, then pin tool versions (Node LTS, choose Python version)
+- **Next action:** set up Mac and run environment check, then `.python-version` (decided: 3.14 — only version still getting bug fixes; verify with `uv run python --version`)
 
 ## Environment
 
 | | macOS | Windows |
 |---|---|---|
 | Git | | 2.56.0 (`core.autocrlf=true`) |
-| .NET SDK (pinned in `global.json`) | | 10.0.202 |
-| Node (pinned in `.nvmrc`) | | 25.9.0 — not LTS, must change |
-| Python (pinned in `.python-version`) | | `python` 3.12.7, `py` 3.14, uv 3.13 — must decide |
+| .NET SDK (pinned in `global.json`) | | 10.0.401 ✓ (10.0.202 still installed — remove) |
+| Node (pinned in `.nvmrc`) | | 24.21.0 via fnm ✓ (fnm line in PowerShell 7 profile) |
+| Python (pinned in `.python-version`) | | uv 0.11.15; 3.14 not yet pinned; 3.12 on PATH — remove |
 | Docker Desktop | | 29.8.1 (WSL2 backend) |
-| VS Code + Claude Code extension | | ✓ (EditorConfig extension installed) |
+| VS Code + Claude Code extension | | ✓ EditorConfig extension; use PowerShell 7 as default terminal |
 | Repo cloned and running | ☐ | ☐ |
 
 ## Roadmap checklist
@@ -190,8 +190,13 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 ## Parked / later
 
 - Add a `-text` rule to `.gitattributes` for raw HTTP test fixtures once the fixtures folder exists (Phase 3/8)
+- Move `.nvmrc` to 26 after it becomes LTS (28 Oct 2026)
+- Consider Python 3.15 once released and stable
+- Windows cleanup: uninstall .NET SDK 10.0.202 and Python 3.12
 
 ## Session log
+
+| 2026-10-01 | Windows | `global.json` (fixed: pinned dead 2xx band → 10.0.401), `.nvmrc` with fnm, LEARNINGS.md; repo renamed to `relay` | Mac setup + env check; `.python-version` |
 
 | Date | Machine | Done | Next |
 |---|---|---|---|
