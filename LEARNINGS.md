@@ -37,6 +37,14 @@ If they are configured inconsistently, files can appear as modified because the 
 .gitattributes → controls how Git handles those files
 ```
 
+### Mistakes made
+
+```text
+eol=LF in uppercase, it's silently ignored
+.cmd files are stored as LF in repo but disk gets CRLF
+*.png text would corrupt every file by changing top level header bytes 10-13
+```
+
 ## `global.json`
 
 - Pinning to whatever version is installed is not a decision. Check that the version is still supported and patched.
