@@ -7,20 +7,20 @@
 - **Phase:** 0 — Foundations
 - **Step:** 0.1 — Repo structure and tooling files
 - **Branch:** chore/0.1-repo-tooling (pushed)
-- **Status:** In progress — done: `master`→`main`, repo renamed to `relay`, `.gitattributes`, `.editorconfig`, `global.json` (10.0.401, latestPatch), `.nvmrc` (24), `LEARNINGS.md`. Left: `.python-version`, README stub, ADR template, folder layout, PR
+- **Status:** In progress — done: `master`→`main`, repo renamed to `relay`, `.gitattributes`, `.editorconfig`, `global.json` (10.0.401, latestPatch), `.nvmrc` (24), `.python-version` (3.14), `LEARNINGS.md`, macOS environment set up and verified. Left: README stub, ADR template, folder layout, PR
 - **Blocked on:** nothing
-- **Next action:** set up Mac and run environment check, then `.python-version` (decided: 3.14 — only version still getting bug fixes; verify with `uv run python --version`)
+- **Next action:** owe mentor: `latestPatch` explain-back + verified reasoning for Python 3.14 (check devguide version status page); then README stub
 
 ## Environment
 
 | | macOS | Windows |
 |---|---|---|
-| Git | | 2.56.0 (`core.autocrlf=true`) |
-| .NET SDK (pinned in `global.json`) | | 10.0.401 ✓ (10.0.202 still installed — remove) |
-| Node (pinned in `.nvmrc`) | | 24.21.0 via fnm ✓ (fnm line in PowerShell 7 profile) |
-| Python (pinned in `.python-version`) | | uv 0.11.15; 3.14 not yet pinned; 3.12 on PATH — remove |
-| Docker Desktop | | 29.8.1 (WSL2 backend) |
-| VS Code + Claude Code extension | | ✓ EditorConfig extension; use PowerShell 7 as default terminal |
+| Git | 2.56.0 (`core.autocrlf` unset) | 2.56.0 (`core.autocrlf=true`) |
+| .NET SDK (pinned in `global.json`) | 10.0.401 ✓ (only SDK installed) | 10.0.401 ✓ (10.0.202 still installed — remove) |
+| Node (pinned in `.nvmrc`) | 24.21.0 via fnm ✓ (hook in `~/.zshrc`, `--use-on-cd --version-file-strategy=recursive`; Homebrew node removed) | 24.21.0 via fnm ✓ (fnm line in PowerShell 7 profile) |
+| Python (pinned in `.python-version`) | uv 0.12.21 (Homebrew); 3.14.7 uv-managed ✓ via `uv run` | uv 0.11.15; 3.14 not yet pinned; 3.12 on PATH — remove |
+| Docker Desktop | 29.8.1 ✓ (`hello-world` ran) | 29.8.1 (WSL2 backend) |
+| VS Code + Claude Code extension | ✓ EditorConfig extension; zsh terminal | ✓ EditorConfig extension; use PowerShell 7 as default terminal |
 | Repo cloned and running | ☐ | ☐ |
 
 ## Roadmap checklist
@@ -193,11 +193,14 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 - Move `.nvmrc` to 26 after it becomes LTS (28 Oct 2026)
 - Consider Python 3.15 once released and stable
 - Windows cleanup: uninstall .NET SDK 10.0.202 and Python 3.12
+- Windows: upgrade uv to match Mac (`winget upgrade astral-sh.uv`; Mac is 0.12.21)
+- Windows: add `--version-file-strategy=recursive` to the fnm line in the PowerShell profile (needed for `apps/dashboard/`)
+- Mac (optional): uninstall python.org 3.12/3.14 once nothing depends on them; project Python comes from uv
 
 ## Session log
-
-| 2026-10-01 | Windows | `global.json` (fixed: pinned dead 2xx band → 10.0.401), `.nvmrc` with fnm, LEARNINGS.md; repo renamed to `relay` | Mac setup + env check; `.python-version` |
 
 | Date | Machine | Done | Next |
 |---|---|---|---|
 | 2026-09-30 | Windows | Renamed master → main; `.gitattributes` (fixed `eol=LF` case bug) and `.editorconfig` committed; branch pushed | Mac env check; pin tool versions |
+| 2026-10-01 | Windows | `global.json` (fixed: pinned dead 2xx band → 10.0.401), `.nvmrc` with fnm, LEARNINGS.md; repo renamed to `relay` | Mac setup + env check; `.python-version` |
+| 2026-10-01 | macOS | fnm hooked into zsh, Node 24.21.0, Homebrew node removed; uv Python 3.14.7; .NET/Docker/Git/EditorConfig verified; `.python-version` pinned | `latestPatch` explain-back + 3.14 reasoning; README stub, ADR template, folder layout |
