@@ -36,3 +36,5 @@ If they are configured inconsistently, files can appear as modified because the 
 .editorconfig  → controls how the editor writes files
 .gitattributes → controls how Git handles those files
 ```
+## `global.json`
+- Pinning to whatever version is installed is not a decision. Check that the version is still supported and patched.
