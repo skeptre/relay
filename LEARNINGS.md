@@ -30,14 +30,14 @@ For example:
 
 If they are configured inconsistently, files can appear as modified because the editor and Git are handling line endings differently.
 
-### Mental Model
+## Mental Model
 
 ```text
 .editorconfig  → controls how the editor writes files
 .gitattributes → controls how Git handles those files
 ```
 
-### Mistakes made
+## Mistakes made
 
 ```text
 eol=LF in uppercase, it's silently ignored
@@ -48,3 +48,11 @@ eol=LF in uppercase, it's silently ignored
 ## `global.json`
 
 - Pinning to whatever version is installed is not a decision. Check that the version is still supported and patched.
+
+## SDK feature bands
+
+latestPatch is a band that only changes the last two digits of the version whic hare the patch update number.
+
+## Python version
+
+Python interpreter version can be pinned and is different from allowed range of version that users can install  
