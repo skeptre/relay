@@ -53,9 +53,11 @@ eol=LF in uppercase, it's silently ignored
 
 latestPatch keeps the version strictly within the same feature band, for example if we have version 4.0.100, it will rollForward to 4.0.105 but won't do 4.0.200
 
-latestFeature instead will rollForward to 4.0.200 or 4.0.305, as long as it stays within that minor version.
+latestFeature instead will rollForward to 4.0.200 or 4.0.305, as long as it stays within that minor version and if the version is already installed.
 
-4 is major, 0 is minor, Feature Band is 2 and Path 05. 4.0.105
+4 is major, 0 is minor, Feature Band is 1 and Patch 05. 4.0.105
+
+When no version in the band is installed, the build fails loudly. 
 
 ## .python-version vs requires-python
 
@@ -63,7 +65,7 @@ Python interpreter version can be pinned and is different from allowed range of 
 
 ## Architecture Decision Record
 
-ADRs are immutable. Supersede, don't edit the current version, make a new copy of the older version with new updates on it.
+ADRs are immutable. Supersede, don't edit the current version. We take the template and write the new updates on it, in the end we have multiple version of each major decision and why we made such decision.
 
 ## Store first, then return 2xx
 
