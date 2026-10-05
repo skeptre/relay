@@ -56,3 +56,7 @@ latestPatch is a band that only changes the last two digits of the version whic 
 ## Python version
 
 Python interpreter version can be pinned and is different from allowed range of version that users can install  
+
+### Architecture Design
+
+ADRs are immutable. Supersede, don't edit.

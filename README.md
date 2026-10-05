@@ -19,3 +19,7 @@ Relay is an intermediary that sits between webhook senders (like Stripe or GitHu
 ## Stack
 
 C# / ASP.NET Core (.NET 10), PostgreSQL, React + TypeScript, Python (CLI and SDK), Docker.
+
+### Architecture Decisions
+
+[docs/adr/](docs/adr/)
