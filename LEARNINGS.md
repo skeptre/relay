@@ -53,10 +53,14 @@ eol=LF in uppercase, it's silently ignored
 
 latestPatch is a band that only changes the last two digits of the version whic hare the patch update number.
 
-## Python version
+## .python-version vs requires-python
 
 Python interpreter version can be pinned and is different from allowed range of version that users can install  
 
-### Architecture Design
+## Architecture Decision Record
 
-ADRs are immutable. Supersede, don't edit.
+ADRs are immutable. Supersede, don't edit the current version, make a new version with updates on it.
+
+## Store first, then return 2xx
+
+The idea is that we must store the event first before returning a positive http code. If we respond before saving, the event can be lost.
