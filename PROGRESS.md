@@ -5,11 +5,12 @@
 ## Current position
 
 - **Phase:** 0 — Foundations
-- **Step:** 0.1 — Repo structure and tooling files
-- **Branch:** chore/0.1-repo-tooling (pushed)
-- **Status:** In progress — done: `master`→`main`, repo renamed to `relay`, `.gitattributes`, `.editorconfig`, `global.json` (10.0.401, latestPatch), `.nvmrc` (24), `.python-version` (3.14), `LEARNINGS.md`, macOS environment set up and verified. Left: README stub, ADR template, folder layout, PR
+- **Step:** 0.2 — ASP.NET Core API with `/health`
+- **Branch:** — (create `feat/0.2-api-health` from `main` after 0.1 PR merges)
+- **Status:** Not started
 - **Blocked on:** nothing
-- **Next action:** owe mentor: `latestPatch` explain-back + verified reasoning for Python 3.14 (check devguide version status page); then README stub
+- **Next action:** merge 0.1 PR; then 0.2 design: solution/project layout under `services/api/`
+
 
 ## Environment
 
@@ -26,7 +27,7 @@
 ## Roadmap checklist
 
 ### Phase 0 — Foundations
-- [ ] 0.1 Repo structure, `.gitignore`, `.gitattributes`, `.editorconfig`, pinned versions, README stub, ADR template, `LEARNINGS.md`
+- [X] 0.1 Repo structure, `.gitignore`, `.gitattributes`, `.editorconfig`, pinned versions, README stub, ADR template, `LEARNINGS.md`
 - [ ] 0.2 ASP.NET Core API with `/health`
 - [ ] 0.3 Docker Compose with Postgres; `/health` reports DB status
 - [ ] 0.4 React + Vite + TypeScript dashboard scaffold
@@ -196,6 +197,9 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 - Windows: upgrade uv to match Mac (`winget upgrade astral-sh.uv`; Mac is 0.12.21)
 - Windows: add `--version-file-strategy=recursive` to the fnm line in the PowerShell profile (needed for `apps/dashboard/`)
 - Mac (optional): uninstall python.org 3.12/3.14 once nothing depends on them; project Python comes from uv
+- Do the GitHub → webhook.site exercise and inspect a real webhook body + headers — **before step 1.4**
+- LinkedIn kickoff post (draft from mentor; rewrite in own voice before posting)
+
 
 ## Session log
 
@@ -204,3 +208,4 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 | 2026-09-30 | Windows | Renamed master → main; `.gitattributes` (fixed `eol=LF` case bug) and `.editorconfig` committed; branch pushed | Mac env check; pin tool versions |
 | 2026-10-01 | Windows | `global.json` (fixed: pinned dead 2xx band → 10.0.401), `.nvmrc` with fnm, LEARNINGS.md; repo renamed to `relay` | Mac setup + env check; `.python-version` |
 | 2026-10-01 | macOS | fnm hooked into zsh, Node 24.21.0, Homebrew node removed; uv Python 3.14.7; .NET/Docker/Git/EditorConfig verified; `.python-version` pinned | `latestPatch` explain-back + 3.14 reasoning; README stub, ADR template, folder layout |
+| 2026-10-05 | macOS | README stub, ADR template (`docs/adr/0000-template.md`), LEARNINGS (feature bands, ADR immutability, store-then-2xx); learned `commit --amend` + `push --force-with-lease`. Decision: folders created in the step that fills them (no placeholders) | Merge 0.1 PR; start 0.2 |

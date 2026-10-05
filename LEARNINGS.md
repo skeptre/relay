@@ -70,3 +70,13 @@ ADRs are immutable. Supersede, don't edit the current version. We take the templ
 ## Store first, then return 2xx
 
 The idea is that we must store the event first before returning a positive http code. If we respond before saving, the event can be lost.
+
+## Step 0.1
+
+This step set up the tools and initial configuration. 
+
+Same line endings makes sure files don't change on different machines.
+
+Version pinning ensures compatibility and allows builds to succeed without failing silently.
+
+Docs ADR, we have a what and why of each major decision. 
