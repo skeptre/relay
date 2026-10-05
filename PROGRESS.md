@@ -5,28 +5,29 @@
 ## Current position
 
 - **Phase:** 0 — Foundations
-- **Step:** 0.1 — Repo structure and tooling files
-- **Branch:** —
+- **Step:** 0.2 — ASP.NET Core API with `/health`
+- **Branch:** — (create `feat/0.2-api-health` from `main` after 0.1 PR merges)
 - **Status:** Not started
 - **Blocked on:** nothing
-- **Next action:** start session, confirm environment on both machines
+- **Next action:** merge 0.1 PR; then 0.2 design: solution/project layout under `services/api/`
+
 
 ## Environment
 
 | | macOS | Windows |
 |---|---|---|
-| Git | | |
-| .NET SDK (pinned in `global.json`) | | |
-| Node (pinned in `.nvmrc`) | | |
-| Python (pinned in `.python-version`) | | |
-| Docker Desktop | | (WSL2 backend) |
-| VS Code + Claude Code extension | | |
+| Git | 2.56.0 (`core.autocrlf` unset) | 2.56.0 (`core.autocrlf=true`) |
+| .NET SDK (pinned in `global.json`) | 10.0.401 ✓ (only SDK installed) | 10.0.401 ✓ (10.0.202 still installed — remove) |
+| Node (pinned in `.nvmrc`) | 24.21.0 via fnm ✓ (hook in `~/.zshrc`, `--use-on-cd --version-file-strategy=recursive`; Homebrew node removed) | 24.21.0 via fnm ✓ (fnm line in PowerShell 7 profile) |
+| Python (pinned in `.python-version`) | uv 0.12.21 (Homebrew); 3.14.7 uv-managed ✓ via `uv run` | uv 0.11.15; 3.14 not yet pinned; 3.12 on PATH — remove |
+| Docker Desktop | 29.8.1 ✓ (`hello-world` ran) | 29.8.1 (WSL2 backend) |
+| VS Code + Claude Code extension | ✓ EditorConfig extension; zsh terminal | ✓ EditorConfig extension; use PowerShell 7 as default terminal |
 | Repo cloned and running | ☐ | ☐ |
 
 ## Roadmap checklist
 
 ### Phase 0 — Foundations
-- [ ] 0.1 Repo structure, `.gitignore`, `.gitattributes`, `.editorconfig`, pinned versions, README stub, ADR template, `LEARNINGS.md`
+- [X] 0.1 Repo structure, `.gitignore`, `.gitattributes`, `.editorconfig`, pinned versions, README stub, ADR template, `LEARNINGS.md`
 - [ ] 0.2 ASP.NET Core API with `/health`
 - [ ] 0.3 Docker Compose with Postgres; `/health` reports DB status
 - [ ] 0.4 React + Vite + TypeScript dashboard scaffold
@@ -189,10 +190,22 @@ Mark each: ☐ not yet · ◐ used it · ● can explain it in an interview
 
 ## Parked / later
 
-- 
+- Add a `-text` rule to `.gitattributes` for raw HTTP test fixtures once the fixtures folder exists (Phase 3/8)
+- Move `.nvmrc` to 26 after it becomes LTS (28 Oct 2026)
+- Consider Python 3.15 once released and stable
+- Windows cleanup: uninstall .NET SDK 10.0.202 and Python 3.12
+- Windows: upgrade uv to match Mac (`winget upgrade astral-sh.uv`; Mac is 0.12.21)
+- Windows: add `--version-file-strategy=recursive` to the fnm line in the PowerShell profile (needed for `apps/dashboard/`)
+- Mac (optional): uninstall python.org 3.12/3.14 once nothing depends on them; project Python comes from uv
+- Do the GitHub → webhook.site exercise and inspect a real webhook body + headers — **before step 1.4**
+- LinkedIn kickoff post (draft from mentor; rewrite in own voice before posting)
+
 
 ## Session log
 
 | Date | Machine | Done | Next |
 |---|---|---|---|
-| | | | |
+| 2026-09-30 | Windows | Renamed master → main; `.gitattributes` (fixed `eol=LF` case bug) and `.editorconfig` committed; branch pushed | Mac env check; pin tool versions |
+| 2026-10-01 | Windows | `global.json` (fixed: pinned dead 2xx band → 10.0.401), `.nvmrc` with fnm, LEARNINGS.md; repo renamed to `relay` | Mac setup + env check; `.python-version` |
+| 2026-10-01 | macOS | fnm hooked into zsh, Node 24.21.0, Homebrew node removed; uv Python 3.14.7; .NET/Docker/Git/EditorConfig verified; `.python-version` pinned | `latestPatch` explain-back + 3.14 reasoning; README stub, ADR template, folder layout |
+| 2026-10-05 | macOS | README stub, ADR template (`docs/adr/0000-template.md`), LEARNINGS (feature bands, ADR immutability, store-then-2xx); learned `commit --amend` + `push --force-with-lease`. Decision: folders created in the step that fills them (no placeholders) | Merge 0.1 PR; start 0.2 |
