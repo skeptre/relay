@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/services/" />
+  <Folder Name="/services/api/">
+    <Project Path="services/api/Relay.Api.Tests/Relay.Api.Tests.csproj" />
+    <Project Path="services/api/Relay.Api/Relay.Api.csproj" />
+  </Folder>
+</Solution>
