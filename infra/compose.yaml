@@ -20,5 +20,27 @@ services:
       retries: 5
       start_period: 30s
 
+  # The API normally runs natively (dotnet run). This service runs the production
+  # image against the same Postgres. Opt in with: docker compose --profile app up --build
+  api:
+    profiles: ["app"]
+    build:
+      context: ..
+      dockerfile: services/api/Dockerfile
+    image: relay-api:local
+    # dotnet as PID 1 ignores the abort signal on a startup crash and spins forever.
+    # An init process forwards signals and reaps it, so fail-fast actually exits.
+    init: true
+
+    environment:
+      ConnectionStrings__Relay: "Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:

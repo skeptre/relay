@@ -1,0 +1,58 @@
+#cloud-config
+# EC2 user data for Ubuntu 24.04 LTS. Paste into "Advanced details -> User data" at launch.
+# Before launching: replace the ssh_authorized_keys entry with the deploy key's PUBLIC half.
+# See docs/deploy.md.
+
+package_update: true
+package_upgrade: true
+packages:
+  - ca-certificates
+  - curl
+  - unattended-upgrades
+
+users:
+  - default
+  - name: deploy
+    shell: /bin/bash
+    # Membership of the docker group is root-equivalent. This user exists only for CI deploys.
+    groups: [docker]
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-ed25519 REPLACE_WITH_DEPLOY_PUBLIC_KEY relay-deploy
+
+groups:
+  - docker
+
+write_files:
+  # Key-only SSH, no root login.
+  - path: /etc/ssh/sshd_config.d/60-relay.conf
+    permissions: "0644"
+    content: |
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      PermitRootLogin no
+
+runcmd:
+  # Docker Engine + Compose plugin from Docker's official apt repository.
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  - chmod a+r /etc/apt/keyrings/docker.asc
+  - >-
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc]
+    https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable"
+    > /etc/apt/sources.list.d/docker.list
+  - apt-get update
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - systemctl enable --now docker
+
+  # 2 GiB swap: t3.small has 2 GiB RAM shared by Postgres, the API and Caddy.
+  - fallocate -l 2G /swapfile
+  - chmod 600 /swapfile
+  - mkswap /swapfile
+  - swapon /swapfile
+  - echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
+  # Deploy directory, owned by the deploy user.
+  - install -d -o deploy -g deploy -m 0750 /opt/relay
+
+  - systemctl restart ssh
