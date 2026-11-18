@@ -1,0 +1,45 @@
+name: Docker
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-api-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v7
+
+      - name: Build the API image
+        run: docker build --file services/api/Dockerfile --tag relay-api:ci .
+
+      - name: Fail fast when the connection string is missing
+        run: |
+          if docker run --rm --init relay-api:ci; then
+            echo "expected a non-zero exit without ConnectionStrings__Relay"
+            exit 1
+          fi
+
+      - name: Smoke test (process starts and /health answers)
+        run: |
+          # Port 1 has nothing listening, so a healthy app must answer 503, not crash.
+          docker run --detach --init --name relay-api --publish 8080:8080 \
+            --env 'ConnectionStrings__Relay=Host=127.0.0.1;Port=1;Database=x;Username=x;Password=x;Timeout=2' \
+            relay-api:ci
+          for i in $(seq 1 30); do
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' http://localhost:8080/health || true)
+            if [ "$code" = "503" ] || [ "$code" = "200" ]; then
+              echo "/health answered $code"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "/health never answered"
+          docker logs relay-api
+          exit 1
