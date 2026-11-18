@@ -32,7 +32,7 @@ jobs:
           docker run --detach --init --name relay-api --publish 8080:8080 \
             --env 'ConnectionStrings__Relay=Host=127.0.0.1;Port=1;Database=x;Username=x;Password=x;Timeout=2' \
             relay-api:ci
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             code=$(curl --silent --output /dev/null --write-out '%{http_code}' http://localhost:8080/health || true)
             if [ "$code" = "503" ] || [ "$code" = "200" ]; then
               echo "/health answered $code"
