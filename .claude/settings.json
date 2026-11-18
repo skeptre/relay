@@ -1,11 +1,7 @@
 {
   "permissions": {
     "deny": [
-      "Edit",
-      "Write",
       "NotebookEdit",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
       "Bash(git checkout:*)",
       "Bash(git reset:*)",
       "Bash(git merge:*)",
@@ -20,7 +16,11 @@
       "Bash(rm:*)",
       "Bash(mv:*)",
       "Bash(cp:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Edit(/services/api/Relay.Api/**)",
+      "Edit(/services/api/Relay.Api.Tests/**)",
+      "Edit(/apps/dashboard/src/**)",
+      "Edit(/LEARNINGS.md)"
     ],
     "allow": [
       "Bash(git status)",
@@ -34,7 +34,17 @@
       "Bash(npm run lint:*)",
       "Bash(npm run typecheck:*)",
       "Bash(pytest:*)",
-      "Bash(docker compose ps:*)"
+      "Bash(docker compose ps:*)",
+      "Edit(/.github/**)",
+      "Edit(/infra/**)",
+      "Edit(/services/api/Dockerfile)",
+      "Edit(/.dockerignore)",
+      "Edit(/docs/**)",
+      "Edit(/README.md)",
+      "Bash(git switch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
