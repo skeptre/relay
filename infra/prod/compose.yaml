@@ -1,0 +1,71 @@
+# Production stack for a single host (ADR-0002). Lives at /opt/relay on the server.
+#   docker compose --env-file .env --env-file release.env up -d
+# .env holds secrets (created once by hand); release.env holds the image tag (written by deploy).
+
+name: relay
+
+x-logging: &logging
+  # Docker's default json-file log has no size limit and will eventually fill the disk.
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  caddy:
+    image: caddy:2.11.9
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      RELAY_DOMAIN: ${RELAY_DOMAIN:?set RELAY_DOMAIN in .env}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # caddy_data holds the TLS certificates. Losing it means re-issuing, and Let's Encrypt rate-limits that.
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    logging: *logging
+
+  api:
+    image: ${RELAY_API_IMAGE:?set RELAY_API_IMAGE in release.env}
+    restart: unless-stopped
+    # dotnet as PID 1 ignores SIGABRT, so a startup crash would hang instead of restarting.
+    init: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Relay: "Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+    # No published ports: only Caddy, on the internal network, can reach the API.
+    expose:
+      - "8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    logging: *logging
+
+  postgres:
+    image: postgres:18.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in .env}
+    # Never published to the host. Reach it with: docker compose exec postgres psql -U <user> <db>
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging: *logging
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

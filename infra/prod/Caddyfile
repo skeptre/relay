@@ -1,0 +1,22 @@
+{
+	# Contact address for Let's Encrypt (expiry and problem notices).
+	email {$ACME_EMAIL}
+}
+
+{$RELAY_DOMAIN} {
+	encode zstd gzip
+
+	# Outer bound at the edge so an unbounded upload never reaches the API.
+	# 25MB = GitHub's maximum webhook payload. The API's own, tighter limit is Phase 3.1.
+	request_body {
+		max_size 25MB
+	}
+
+	# Caddy sets X-Forwarded-For/-Proto/-Host. The API must only trust them from this proxy (Phase 3.3).
+	reverse_proxy api:8080
+
+	log {
+		output stdout
+		format json
+	}
+}
